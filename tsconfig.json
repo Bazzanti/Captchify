@@ -1,0 +1,11 @@
+{
+  "extends": "fastify-tsconfig",
+  "compilerOptions": {
+  "outDir": "dist",
+  "declaration": false,
+  "sourceMap": true,
+  "strictPropertyInitialization": false,
+  },
+  "include": ["src/**/*.ts", "src/index.ts"],
+  "exclude": [".eslintrc.js"]
+ }
