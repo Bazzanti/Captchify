@@ -1,5 +1,6 @@
 import type { FastifyInstance, FastifyRequest } from 'fastify';
 import { CaptchaService } from '../services/CaptchaService';
+import { ImageGenerationService } from '../services/ImageGenerationService';
 
 interface CheckCaptchaRequestBody {
   captcha: string;
@@ -16,9 +17,13 @@ async function captchaRoutes(fastify: FastifyInstance, options: any) {
   });
 
   fastify.post('/create', async (request, reply) => {
-    const service = new CaptchaService();
-    const captchaString = service.createCaptchaString();
-    reply.send(captchaString);
+    const captchaService = new CaptchaService();
+    const captchaString = captchaService.createCaptchaString();
+    const imageService = new ImageGenerationService();
+    const imageBuffer = imageService.generateCaptcha(captchaString);
+
+    reply.header('Content-Type', 'image/png');
+    reply.send(imageBuffer);
   });
 
   fastify.post(
