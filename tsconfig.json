@@ -6,6 +6,6 @@
   "sourceMap": true,
   "strictPropertyInitialization": false,
   },
-  "include": ["src/**/*.ts", "src/index.ts"],
-  "exclude": [".eslintrc.js"]
- }
+  "include": ["src/**/*.ts", "src/app.ts"],
+  "exclude": [".eslintrc.js","test"]
+}
