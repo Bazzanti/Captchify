@@ -37,4 +37,19 @@ export class DAL {
 
     return await this.getCaptchaById(result.lastID);
   }
+
+  async validateCaptchaCheck(captcha: Captcha) {
+    if (captcha.checkedOn) {
+      throw new Error('Captcha already checked');
+    }
+
+    const result = await this.db.run(
+      'UPDATE captcha SET checkedOn = CURRENT_TIMESTAMP WHERE id = ?',
+      captcha.id,
+    );
+
+    if (!result.changes) {
+      throw new Error('Error updating captcha');
+    }
+  }
 }

@@ -48,15 +48,19 @@ async function captchaRoutes(fastify: FastifyInstance, options: any) {
       request: FastifyRequest<{ Body: CheckCaptchaRequestBody }>,
       reply,
     ) => {
-      const service = new CaptchaService(fastify);
-      const { captcha, id } = request.body;
-      const result = await service.checkCaptcha(captcha, id);
+      try {
+        const service = new CaptchaService(fastify);
+        const { captcha, id } = request.body;
+        const result = await service.checkCaptcha(captcha, id);
 
-      if (result) {
-        reply.code(200).send({ message: 'ok' });
-      } else {
-        const error = new Error('Invalid Captcha Response');
-        reply.code(500).send(error);
+        if (result) {
+          reply.code(200).send({ message: 'ok' });
+        } else {
+          const error = new Error('Invalid Captcha');
+          reply.code(500).send(error?.message);
+        }
+      } catch (e: any) {
+        reply.code(500).send({ message: e?.message });
       }
     },
   );

@@ -26,8 +26,11 @@ export class CaptchaService {
 
   async checkCaptcha(inputCaptcha: string, idCaptcha: number) {
     const captcha = await this.dal.getCaptchaById(idCaptcha);
+    if (inputCaptcha !== captcha?.sequence) {
+      return false;
+    }
+    await this.dal.validateCaptchaCheck(captcha);
 
-    console.log(captcha);
-    return inputCaptcha === captcha?.sequence;
+    return true;
   }
 }

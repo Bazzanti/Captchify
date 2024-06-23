@@ -6,8 +6,8 @@ import { createCanvas } from 'canvas';
  * For checking images,use https://base64.guru/converter/decode/image
  */
 export class ImageGenerationService {
-  width = 200;
-  height = 100;
+  width = 150;
+  height = 70;
   font = '48px sans-serif';
   backgroundColor = '#ffffff'; // white
   textColor = '#000000'; // black

@@ -11,8 +11,6 @@ Install Node dependencies:
 
 `npm install`
 
-- For checking images,use https://base64.guru/converter/decode/image
-
 ### 2. Start the server
 
 `npm run dev`
@@ -23,9 +21,18 @@ curl -X POST <ROUTE>
 ex.
 curl -X POST http://localhost:3000/v1/captcha/create
 
+For checking images from base64,use https://base64.guru/converter/decode/image
+
 ### 4. Validate the captcha
 
 curl -X POST <ROUTE> -H "Content-Type: application/json" -d '{"id":<ID>,"captcha":"<SOLUTION>"}'
 
 ex.
 curl -X POST http://localhost:3000/v1/captcha/check -H "Content-Type: application/json" -d '{"id":3,"captcha":"fk5TS"}'
+
+## Changes and updates
+
+To change the image, use the test and update the ImageGenerationService
+npm run test -- ImageGenerationService.spec.ts
+
+For checking images from base64,use https://base64.guru/converter/decode/image
