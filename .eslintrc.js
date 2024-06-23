@@ -4,6 +4,7 @@ module.exports = {
     project: "./tsconfig.json",
     sourceType: 'module',
     },
+    ignorePatterns: ['.eslintrc.js', 'jest.config.js'],
     rules: {
     "@typescript-eslint/consistent-type-assertions": "off",
     "@typescript-eslint/no-floating-promises": "off",

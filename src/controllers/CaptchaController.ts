@@ -19,7 +19,6 @@ async function captchaRoutes(fastify: FastifyInstance, options: any) {
     const imageService = new ImageGenerationService();
     const imageBuffer = imageService.generateCaptcha(captchaDb?.sequence);
 
-    // reply.header('Content-Type', 'image/png');
     reply.send({
       captcha: Buffer.from(imageBuffer).toString('base64'),
       id: captchaDb.id,
