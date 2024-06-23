@@ -17,13 +17,17 @@ async function captchaRoutes(fastify: FastifyInstance, options: any) {
   });
 
   fastify.post('/create', async (request, reply) => {
-    const captchaService = new CaptchaService();
-    const captchaString = captchaService.createCaptchaString();
-    const imageService = new ImageGenerationService();
-    const imageBuffer = imageService.generateCaptcha(captchaString);
+    const captchaService = new CaptchaService(fastify);
+    const captchaDb = await captchaService.createCaptchaString();
 
-    reply.header('Content-Type', 'image/png');
-    reply.send(imageBuffer);
+    const imageService = new ImageGenerationService();
+    const imageBuffer = imageService.generateCaptcha(captchaDb?.sequence);
+
+    // reply.header('Content-Type', 'image/png');
+    reply.send({
+      captcha: Buffer.from(imageBuffer).toString('base64'),
+      id: captchaDb.id,
+    });
   });
 
   fastify.post(
@@ -44,14 +48,15 @@ async function captchaRoutes(fastify: FastifyInstance, options: any) {
       request: FastifyRequest<{ Body: CheckCaptchaRequestBody }>,
       reply,
     ) => {
-      const service = new CaptchaService();
+      const service = new CaptchaService(fastify);
       const { captcha, id } = request.body;
-      const result = service.checkCaptcha(captcha, id);
+      const result = await service.checkCaptcha(captcha, id);
 
       if (result) {
-        reply.code(204).send();
+        reply.code(200).send({ message: 'ok' });
       } else {
-        reply.status(500).send();
+        const error = new Error('Invalid Captcha Response');
+        reply.code(500).send(error);
       }
     },
   );
