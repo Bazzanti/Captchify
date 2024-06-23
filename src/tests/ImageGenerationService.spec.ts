@@ -1,4 +1,4 @@
-import { test } from '@jest/globals';
+import { test, expect } from '@jest/globals';
 import { ImageGenerationService } from '../services/ImageGenerationService';
 
 test('create image base 64', () => {
