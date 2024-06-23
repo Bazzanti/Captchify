@@ -5,7 +5,11 @@
   "declaration": false,
   "sourceMap": true,
   "strictPropertyInitialization": false,
+  "esModuleInterop": true,
+  "typeRoots": [
+    "types"
+  ]
   },
-  "include": ["src/**/*.ts", "src/app.ts"],
+  "include": ["src/**/*.ts", "src/app.ts", "**/*.d.ts"],
   "exclude": [".eslintrc.js","test"]
 }

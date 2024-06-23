@@ -2,7 +2,7 @@
  * Captcha entity model
  */
 export class Captcha {
-  id: number;
+  id?: number;
   sequence: string;
   createdOn: Date;
   checkedOn?: Date;
