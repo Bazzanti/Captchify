@@ -12,16 +12,22 @@ export class CaptchaService {
     this.dal = new DAL(fastify);
   }
 
-  async createCaptchaString(captchaLength: number = 5) {
-    let captcha = '';
-
-    for (let i = 0; i < captchaLength; i++) {
-      captcha += this.chrs[Math.floor(Math.random() * this.chrs.length)];
-    }
+  async createCaptcha(captchaLength: number = 5) {
+    const captcha = this.createCaptchaString(captchaLength);
 
     const captchadb = await this.dal.insertCaptcha(captcha);
 
     return captchadb;
+  }
+
+  createCaptchaString(captchaLength: number = 5) {
+    let captchaString = '';
+
+    for (let i = 0; i < captchaLength; i++) {
+      captchaString += this.chrs[Math.floor(Math.random() * this.chrs.length)];
+    }
+
+    return captchaString;
   }
 
   async checkCaptcha(inputCaptcha: string, idCaptcha: number) {

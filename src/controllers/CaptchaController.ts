@@ -12,13 +12,9 @@ interface CheckCaptchaRequestBody {
  * @param {Object} options plugin options, refer to https://fastify.dev/docs/latest/Reference/Plugins/#plugin-options
  */
 async function captchaRoutes(fastify: FastifyInstance, options: any) {
-  fastify.get('/', async (request, reply) => {
-    return { hello: 'world' };
-  });
-
   fastify.post('/create', async (request, reply) => {
     const captchaService = new CaptchaService(fastify);
-    const captchaDb = await captchaService.createCaptchaString();
+    const captchaDb = await captchaService.createCaptcha();
 
     const imageService = new ImageGenerationService();
     const imageBuffer = imageService.generateCaptcha(captchaDb?.sequence);

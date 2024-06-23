@@ -1,12 +1,60 @@
-import { test, expect } from '@jest/globals';
+import {
+  test,
+  expect,
+  beforeEach,
+  describe,
+  it,
+  afterAll,
+} from '@jest/globals';
 import { build } from '../app';
 import { DAL } from '../dal/DAL';
 
-test('captcha DAL', async () => {
-  const app = build();
+let dal: DAL;
 
-  const dal = new DAL(app);
-  const captchas = await dal.fetchCatpchas();
+describe('DAL Test Block', () => {
+  beforeEach(async () => {
+    const app = build({ filename: './db/captcha-test.db' });
+    await app.ready();
+    dal = new DAL(app);
+    await dal.cleanTable();
+  });
 
-  expect(captchas).toBeDefined();
+  afterAll(async () => {
+    await dal.cleanTable();
+
+    await dal.close();
+  });
+
+  it('captcha DAL fetch ALL', async () => {
+    const captchas = await dal.fetchCatpchas();
+    console.log(captchas);
+
+    expect(captchas).toBeDefined();
+  });
+
+  test('captcha DAL create one', async () => {
+    const captcha = await dal.insertCaptcha('test');
+    console.log(captcha);
+
+    expect(captcha).toBeDefined();
+    expect(captcha.sequence).toBe('test');
+  });
+
+  test('captcha DAL create and check one', async () => {
+    const captcha = await dal.insertCaptcha('test');
+    console.log(captcha);
+
+    expect(captcha).toBeDefined();
+    expect(captcha.sequence).toBe('test');
+
+    let validate = false;
+    try {
+      validate = await dal.validateCaptchaCheck(captcha);
+    } catch (e) {
+      console.log(e);
+      expect(e).not.toBeDefined();
+    } finally {
+      expect(validate).toBe(true);
+    }
+  });
 });

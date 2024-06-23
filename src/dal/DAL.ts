@@ -51,5 +51,15 @@ export class DAL {
     if (!result.changes) {
       throw new Error('Error updating captcha');
     }
+
+    return true;
+  }
+
+  async cleanTable() {
+    await this.db.run('DELETE FROM captcha');
+  }
+
+  async close() {
+    await this.db.close();
   }
 }

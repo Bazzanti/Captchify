@@ -1,8 +1,11 @@
-import { test, expect } from '@jest/globals';
+import { test, expect, jest } from '@jest/globals';
 import { CaptchaService } from '../services/CaptchaService';
+import type { FastifyInstance } from 'fastify/types/instance';
+jest.mock('fastify');
 
 const runTheTest = () => {
-  const service = new CaptchaService();
+  const fastifyMock = {} as FastifyInstance;
+  const service = new CaptchaService(fastifyMock);
   const length = Math.floor(Math.random() * 10);
   const captcha = service.createCaptchaString(length);
   console.log('captcha:', captcha);

@@ -3,9 +3,16 @@ import fastifyPlugin from 'fastify-plugin';
 import sqlite3 from 'sqlite3';
 import { open } from 'sqlite';
 
-async function dbConnector(fastify: FastifyInstance, options: any) {
+export interface dbOptions {
+  filename: string;
+}
+
+async function dbConnector(fastify: FastifyInstance, options: dbOptions) {
+  console.log('Register DB');
+  console.log('options:', options);
+
   const db = await open({
-    filename: './db/captcha.db',
+    filename: options.filename,
     driver: sqlite3.Database,
   });
 
