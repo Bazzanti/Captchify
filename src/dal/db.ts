@@ -8,7 +8,7 @@ export interface dbOptions {
 }
 
 async function dbConnector(fastify: FastifyInstance, options: dbOptions) {
-  console.log('Register DB');
+  console.log('Registering DB');
   console.log('options:', options);
 
   const db = await open({
@@ -27,6 +27,7 @@ async function dbConnector(fastify: FastifyInstance, options: dbOptions) {
   fastify.addHook('onClose', (fastify: any, done: any) => {
     db.close();
   });
+  console.log('Registered DB');
 }
 
 export default fastifyPlugin(dbConnector);

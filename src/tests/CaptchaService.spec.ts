@@ -4,7 +4,7 @@ import type { FastifyInstance } from 'fastify/types/instance';
 jest.mock('fastify');
 
 const runTheTest = () => {
-  const fastifyMock = {} as FastifyInstance;
+  const fastifyMock = { sqlite: { db: {} } } as FastifyInstance;
   const service = new CaptchaService(fastifyMock);
   const length = Math.floor(Math.random() * 10);
   const captcha = service.createCaptchaString(length);

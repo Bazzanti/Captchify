@@ -20,8 +20,6 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 3000
-
-ENV ADDRESS=0.0.0.0 PORT=3000
+EXPOSE 5555
 
 CMD npm run dev

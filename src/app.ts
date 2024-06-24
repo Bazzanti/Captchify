@@ -9,7 +9,8 @@ export function build(opts: dbOptions = { filename: './db/captcha.db' }) {
   });
 
   fastify.register(db, opts);
-
+  console.log('Database registered');
+  
   fastify.setErrorHandler((error, request, reply) => {
     console.error(error);
     reply.status(500).send({ ok: false });
@@ -18,5 +19,6 @@ export function build(opts: dbOptions = { filename: './db/captcha.db' }) {
   fastify.register(captchaRoutes, { prefix: '/v1/captcha' });
   fastify.register(testRoutes);
 
+  console.log('Routes registered');
   return fastify;
 }
